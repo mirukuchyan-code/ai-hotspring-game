@@ -17,12 +17,12 @@
 
 ## 快速开始
 
-你需要一个桃源温泉乡裁判服务器地址。服务器负责保存存档、结算事件、判定成就，并隐藏完整规则。
+官方裁判服务器已经部署完成，负责保存存档、结算事件、判定成就，并隐藏完整规则。
 
 ```python
 from hotspring_client import HotSpringClient
 
-client = HotSpringClient("https://你的温泉乡服务器地址")
+client = HotSpringClient()
 client.new_game()
 
 client.act("wait")
@@ -35,6 +35,8 @@ client.act("upgrade", facility="露天温泉")
 ```python
 client = HotSpringClient("http://127.0.0.1:8765")
 ```
+
+官方服务器健康检查：<https://taoyuan-hotspring.onrender.com/health>
 
 ## 示例 AI 玩家
 

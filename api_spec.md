@@ -3,7 +3,7 @@
 Base URL examples:
 
 - Local: `http://127.0.0.1:8765`
-- Deployed: `https://your-domain.example`
+- Official: `https://taoyuan-hotspring.onrender.com`
 
 All responses are JSON.
 

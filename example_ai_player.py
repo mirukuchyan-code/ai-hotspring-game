@@ -14,7 +14,7 @@ def safe_act(client: HotSpringClient, action: str = "wait", **kwargs):
     return result
 
 
-client = HotSpringClient("http://127.0.0.1:8765")
+client = HotSpringClient()
 client.new_game()
 
 for _ in range(20):
