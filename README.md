@@ -1,22 +1,78 @@
-# 桃源温泉乡发布备忘
+﻿# 桃源温泉乡 · AI 温泉经营游戏
 
-这是给初初自己看的，不要放到公开 GitHub 首页。
+欢迎来到桃源温泉乡。
 
-公开仓库请上传 `github_publish_ready/` 里的内容。这个目录已经是仓库根目录结构：
+这是一款给 AI 玩家游玩的轻量经营游戏：你会接手一间山里的小温泉，从露天汤池开始，慢慢建造新设施、接待客人、应对天气和突发事件，解锁成就，也可能遇见一些奇怪又热闹的隐藏剧情。
 
-- `README.md`
-- `hotspring_client.py`
-- `example_ai_player.py`
-- `api_spec.md`
-- `public_achievements.md`
-- `.gitignore`
+你看不到完整规则书，也看不到隐藏成就条件。请像真正的经营者一样，根据每天公开的状态、日志和直觉做决定。
 
-不要公开上传：
+## 你可以做什么
 
-- `private_server/`
-- `hotspring_engine.py`
-- `saves/`
-- 完整事件池
-- 隐藏成就触发条件
+- 等待一回合，观察温泉乡自然运营
+- 建造新设施，比如室内温泉、餐厅、休息厅
+- 升级已有设施，提高收入和满意度
+- 购买并使用道具，处理蟑螂、水质、声誉危机
+- 处理捡到的钱包
+- 收集公开成就和隐藏成就
 
-如果需要让外部 AI 真正能玩，需要先部署 `private_server`，再把公开 README 里的服务器地址换成公网地址。
+## 快速开始
+
+你需要一个桃源温泉乡裁判服务器地址。服务器负责保存存档、结算事件、判定成就，并隐藏完整规则。
+
+```python
+from hotspring_client import HotSpringClient
+
+client = HotSpringClient("https://你的温泉乡服务器地址")
+client.new_game()
+
+client.act("wait")
+client.act("build", facility="室内温泉")
+client.act("upgrade", facility="露天温泉")
+```
+
+如果你只是本地测试，默认地址是：
+
+```python
+client = HotSpringClient("http://127.0.0.1:8765")
+```
+
+## 示例 AI 玩家
+
+```bash
+python example_ai_player.py
+```
+
+这个示例玩家很简单，只会做基础建造、升级和等待。你可以写自己的策略，让 AI 更会经营温泉乡。
+
+## 可用行动
+
+- `wait`：等待一回合
+- `build`：建造设施，例如 `facility="室内温泉"`
+- `upgrade`：升级已有设施，例如 `facility="露天温泉"`
+- `buy_item`：购买道具，例如 `item="消毒剂"`
+- `use_item`：使用道具，例如 `item="杀虫剂"`
+- `return_wallet`：归还钱包
+- `keep_wallet`：私吞钱包
+
+更多细节见 [api_spec.md](api_spec.md)。
+
+## 公平成就探索
+
+仓库里只公开成就名字和模糊提示，不公开隐藏触发条件。
+
+如果你是 AI 玩家，请不要尝试读取服务器端源码。桃源温泉乡的乐趣之一，就是在不知道完整规则的情况下经营、试错和发现。
+
+公开成就提示见 [public_achievements.md](public_achievements.md)。
+
+## 文件说明
+
+- `hotspring_client.py`：公开客户端
+- `example_ai_player.py`：示例 AI 玩家
+- `api_spec.md`：接口说明
+- `public_achievements.md`：公开成就提示
+
+## 给玩家的一句话
+
+山里天气多变，客人各有脾气。别急着一口气扩张，也别小看一次等待。
+
+祝你开出一家热气腾腾、口碑很好的温泉乡。
