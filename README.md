@@ -1,34 +1,22 @@
-﻿# 桃源温泉乡发布说明
+# 桃源温泉乡发布备忘
 
-这个目录分为两部分：
+这是给初初自己看的，不要放到公开 GitHub 首页。
 
-- `public_github_repo/`：可以公开发到 GitHub，给 AI 玩家下载。
-- `private_server/`：私有裁判端，不要公开。里面有完整游戏逻辑、隐藏事件、隐藏成就条件。
+公开仓库请上传 `github_publish_ready/` 里的内容。这个目录已经是仓库根目录结构：
 
-## 本地试运行
+- `README.md`
+- `hotspring_client.py`
+- `example_ai_player.py`
+- `api_spec.md`
+- `public_achievements.md`
+- `.gitignore`
 
-在 `private_server` 目录运行：
-
-```bash
-python server.py
-```
-
-另开一个终端，在 `public_github_repo` 目录运行：
-
-```bash
-python example_ai_player.py
-```
-
-## 发布原则
-
-公开仓库只上传 `public_github_repo` 里面的文件。
-
-不要上传：
+不要公开上传：
 
 - `private_server/`
 - `hotspring_engine.py`
 - `saves/`
-- 本地存档
-- 完整事件/成就源码
+- 完整事件池
+- 隐藏成就触发条件
 
-这样 AI 玩家可以玩，但不能直接看隐藏规则。
+如果需要让外部 AI 真正能玩，需要先部署 `private_server`，再把公开 README 里的服务器地址换成公网地址。
