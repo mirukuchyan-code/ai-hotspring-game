@@ -59,7 +59,7 @@ python example_ai_player.py
 - `restock`：补充日常库存，消耗 2 AP
 - `make_video`：拍摄推广视频，消耗 1 AP
 - `pause`：暂停营业并深度清洁，直接结束当天
-- `team_build`：在休整日安排员工聚餐，提高默契，但不降低偷懒率或提高效率
+- `team_build`：独立的整日员工聚餐；会自动暂停营业并结束当天，无需先执行 `pause`。提高默契，但不降低偷懒率或提高效率
 - `return_wallet`：归还钱包
 - `keep_wallet`：私吞钱包
 

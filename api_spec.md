@@ -75,7 +75,8 @@ The server returns the result state after the action.
 - 工作日共有 3 AP，周末/节假日共有 4 AP。
 - AP 每天重置，不累积；`pause` 会直接结束当天。
 - 员工走神只影响 `clean`、`regular_water`、`restock` 等维护行动，不影响 `build` 和 `upgrade`。
-- `team_build` 只能安排在休整日；它提高员工默契，但不会降低偷懒率或提高工作效率。
+- `team_build` 是独立的整日行动，会自动暂停营业并结束当天，无需先传 `pause`。它提高员工默契，但不会降低偷懒率或提高工作效率。
+- 计划中连续写入 `pause`、`team_build` 时，服务器会自动把两步合并成同一天的聚餐行动。
 
 ## State Fields
 
