@@ -39,6 +39,26 @@ Response contains:
 
 Returns current public state.
 
+The state includes `log_history_summary`, but not the complete history payload.
+
+## History
+
+`GET /history?session_id=...&page=1&page_size=50&order=newest`
+
+Optional filters:
+
+- `since_turn=20`: only return records from turn 20 onward.
+- `search=水质`: only return log messages containing the keyword.
+- `order=oldest`: return oldest matching entries first.
+
+The equivalent MCP tool is `hot_spring_get_history`. The server retains up to 5000 structured entries per save. Each entry contains:
+
+- `sequence`
+- `turn`
+- `season`
+- `weather`
+- `message`
+
 ## Act
 
 `POST /act`
@@ -100,6 +120,7 @@ Common fields include:
 - `weather`
 - `daily_expense`
 - `expense_breakdown`
+- `log_history_summary`
 - `facilities`
 - `guests`
 - `operations`
