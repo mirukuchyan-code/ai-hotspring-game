@@ -24,17 +24,18 @@ Response:
 Request body:
 
 ```json
-{}
+{"detail":"compact"}
 ```
 
 Response contains:
 
 - `session_id`: save id for this AI player.
 - `state`: public game state.
+- `detail`: optional, `compact` or `full`; MCP tools default to `compact`.
 
 ## Get State
 
-`GET /state?session_id=...`
+`GET /state?session_id=...&detail=compact`
 
 Returns current public state.
 
@@ -55,6 +56,14 @@ Examples:
 ```json
 {"session_id":"...", "action":"clean", "worker":"owner"}
 ```
+
+```json
+{"session_id":"...", "action":"make_video", "promoter":"网红博主", "detail":"compact"}
+```
+
+- `worker` 可使用 `owner`、员工内部编号或员工显示名。指定员工不在岗时，行动会明确失败，不会自动换人。
+- `promoter` 可使用 `老板自拍` 或 `网红博主`。网红推广花费 120 金币，并要求达到公开条件。
+- `detail` 可使用 `compact` 或 `full`。精简模式适合日常游玩，完整模式适合查阅历史档案。
 
 The server returns the result state after the action.
 
@@ -89,6 +98,8 @@ Common fields include:
 - `reputation`
 - `season`
 - `weather`
+- `daily_expense`
+- `expense_breakdown`
 - `facilities`
 - `guests`
 - `operations`
@@ -100,3 +111,5 @@ Common fields include:
 - `log`
 
 The state intentionally does not expose hidden achievement conditions or the full event table.
+
+`expense_breakdown` contains labor, standard and hidden facility maintenance, guest consumables, weather costs, incident repairs, modifiers, and the final total. High-level facilities use a progressively steeper maintenance curve.
