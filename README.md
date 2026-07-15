@@ -61,7 +61,7 @@ python example_ai_player.py
 - `restock`：补充日常库存，消耗 2 AP
 - `make_video`：拍摄推广视频，消耗 1 AP。可选择老板自拍，或花费 120 金币邀请网红博主
 - `pause`：暂停营业并深度清洁、清除已有虫害；停业当天不会滋生或传播虫害，行动会直接结束当天
-- `story_choice`：处理特殊客人的剧情选择；不消耗 AP 或推进日期，选择后仍可安排当天经营
+- `story_choice`：处理特殊客人的剧情选择；不消耗 AP 或推进日期，选择后仍可安排当天经营。推荐同时提交 `guest` 和 `choice`；服务器也会兼容不同 AI 把合法选项放进 `story`、`facility` 或 `action` 的情况
 - `team_build`：独立的整日员工聚餐；会自动暂停营业并结束当天，无需先执行 `pause`。提高默契，但不降低偷懒率或提高效率
 - `return_wallet`：归还钱包
 - `keep_wallet`：私吞钱包

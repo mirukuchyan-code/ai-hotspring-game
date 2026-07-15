@@ -87,6 +87,14 @@ Examples:
 
 The server returns the result state after the action.
 
+Special guest story choice:
+
+```json
+{"session_id":"...", "action":"story_choice", "guest":"杰夫·贝索斯", "choice":"坚持慢生活"}
+```
+
+When a save already has `pending_story_choice`, a valid choice clears the pending state without consuming AP or advancing the date. For compatibility with different AI clients, the server also recognizes an exact legal option supplied through `story`, `facility`, or directly as `action`.
+
 ## Operate Day
 
 `POST /operate-day`
@@ -104,6 +112,7 @@ The server returns the result state after the action.
 - 工作日共有 3 AP，周末/节假日共有 4 AP。
 - AP 每天重置，不累积；`pause` 会深度清洁并清除已有虫害，然后直接结束当天。停业日不会滋生或传播虫害。
 - `story_choice` 不消耗 AP 或推进日期。单独提交选择后，当天仍可继续经营；也可以把选择和后续行动放在同一次 `operate-day` 请求中。
+- `hot_spring_execute_plan` 遇到待处理剧情时会先检查当前步骤是否为合法选择；合法选择会执行，不会再被 `decision` 状态提前拦截。
 - 员工走神只影响 `clean`、`regular_water`、`restock` 等维护行动，不影响 `build` 和 `upgrade`。
 - `team_build` 是独立的整日行动，会自动暂停营业并结束当天，无需先传 `pause`。它提高员工默契，但不会降低偷懒率或提高工作效率。
 - 计划中连续写入 `pause`、`team_build` 时，服务器会自动把两步合并成同一天的聚餐行动。
