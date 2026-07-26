@@ -78,6 +78,10 @@ Examples:
 ```
 
 ```json
+{"session_id":"...", "action":"end_day"}
+```
+
+```json
 {"session_id":"...", "action":"resolve_complaint", "worker":"owner"}
 ```
 
@@ -97,7 +101,7 @@ Examples:
 - `promoter` 可使用 `老板自拍` 或 `网红博主`。网红推广花费 120 金币，并要求达到公开条件。
 - `detail` 可使用 `compact` 或 `full`。精简模式适合日常游玩，完整模式适合查阅历史档案。
 
-The server returns the result state after the action.
+The server returns the result state after the action. `hot_spring_act` preserves remaining AP: a 1 AP action on a workday returns `current_day_ap.remaining_ap = 2` without advancing `turn`. The day settles only when AP reaches zero, or after `wait`, `end_day`, `pause`, `team_build`, `build`, `upgrade`, or `deep_water` consumes or closes the day.
 
 Special guest story choice:
 
@@ -124,6 +128,7 @@ When a save already has `pending_story_choice`, a valid choice clears the pendin
 - 工作日共有 3 AP，周末/节假日共有 4 AP。
 - AP 每天重置，不累积；`pause` 会深度清洁并清除已有虫害，然后直接结束当天。停业日不会滋生或传播虫害。
 - `operate-day` 是一次性整天计划。只要至少一项行动成功，当天立即统一结算；未使用的点数写入 `expired_ap`，而 `unused_ap` 返回 0，不能再追加行动。
+- 如果当天已经通过 `hot_spring_act` 开始单步经营，不能中途切换到 `operate-day`；应继续单步行动或使用 `end_day`。
 - 如果全部行动失败，`day_ended=false`、`can_continue_today=true`、`expired_ap=0`，此时 `unused_ap` 才代表可重新提交的点数。
 - `story_choice` 不消耗 AP 或推进日期。单独提交选择后，当天仍可继续经营；也可以把选择和后续行动放在同一次 `operate-day` 请求中。
 - `hot_spring_execute_plan` 遇到待处理剧情时会先检查当前步骤是否为合法选择；合法选择会执行，不会再被 `decision` 状态提前拦截。
@@ -133,7 +138,7 @@ When a save already has `pending_story_choice`, a valid choice clears the pendin
 - `community_service` 消耗 1 AP 和 120 金币，要求卫生与水质合格，可有限恢复声誉并有 3 天冷却。
 - 点评行动包括 `reply_review`、`compensate_review`、`promote_listing`、`invite_reviewer` 和 `buy_fake_reviews`，均消耗 1 AP。
 - 人气只提高评价出现概率，不直接改变星级；声誉影响回复成功率；星级由实际顾客体验和经营状态决定。
-- `promote_listing` 只增加三天曝光，不保证好评。`buy_fake_reviews` 会累积异常指数，并可能触发删评、浮动罚款和三天限流。
+- `promote_listing` 只增加三天曝光，不保证好评。`buy_fake_reviews` 接受 `quantity=1..10`，每条固定 100 金币；14 天内集中购买越多，异常指数和审核概率越高，并可能触发删评、浮动罚款和三天限流。
 - `team_build` 是独立的整日行动，会自动暂停营业并结束当天，无需先传 `pause`。它提高员工默契，但不会降低偷懒率或提高工作效率。
 - 计划中连续写入 `pause`、`team_build` 时，服务器会自动把两步合并成同一天的聚餐行动。
 
@@ -152,6 +157,8 @@ Use the dedicated `hot_spring_review` MCP tool for review actions. Its `action` 
 - `promote_listing`
 - `invite_reviewer`
 - `buy_fake_reviews`
+
+`buy_fake_reviews` 可额外传入 `quantity`（1–10，默认 1）。少量购买只产生较低审核风险，大量或短期连续购买会非线性提高审核风险。
 
 `review_platform` contains the independent 「桃源点评」state:
 
@@ -180,6 +187,7 @@ Common fields include:
 - `operations`
 - `staff`
 - `staff_teamwork`
+- `current_day_ap`
 - `achievements`
 - `next_day`
 - `tips`
