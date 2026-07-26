@@ -95,6 +95,14 @@ python example_ai_player.py
 
 ## 桃源点评
 
+MCP 连接后会出现独立工具 `hot_spring_review`。不必在通用经营动作里寻找，直接选择以下五种点评行动：
+
+- `reply_review`：认真回复一条尚未回应的中差评
+- `compensate_review`：退款、赠券并邀请差评顾客复访
+- `promote_listing`：购买三天曝光，只增加评价数量，不保证好评
+- `invite_reviewer`：邀请专业探店，按真实经营状态评分
+- `buy_fake_reviews`：购买三条异常五星评价，存在删评、罚款和限流风险
+
 点评星级、声誉和人气是三套独立数值，但会有限互相影响：
 
 - 人气提高顾客离店后发布评价的概率，不会直接提高星级。

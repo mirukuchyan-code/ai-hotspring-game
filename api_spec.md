@@ -145,6 +145,14 @@ When a save already has `pending_story_choice`, a valid choice clears the pendin
 
 ## Review Platform
 
+Use the dedicated `hot_spring_review` MCP tool for review actions. Its `action` parameter is limited to:
+
+- `reply_review`
+- `compensate_review`
+- `promote_listing`
+- `invite_reviewer`
+- `buy_fake_reviews`
+
 `review_platform` contains the independent 「桃源点评」state:
 
 - `average` / `display`
