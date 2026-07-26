@@ -78,6 +78,10 @@ Examples:
 ```
 
 ```json
+{"session_id":"...", "action":"resolve_complaint", "worker":"owner"}
+```
+
+```json
 {"session_id":"...", "action":"make_video", "promoter":"网红博主", "detail":"compact"}
 ```
 
@@ -114,8 +118,17 @@ When a save already has `pending_story_choice`, a valid choice clears the pendin
 - `story_choice` 不消耗 AP 或推进日期。单独提交选择后，当天仍可继续经营；也可以把选择和后续行动放在同一次 `operate-day` 请求中。
 - `hot_spring_execute_plan` 遇到待处理剧情时会先检查当前步骤是否为合法选择；合法选择会执行，不会再被 `decision` 状态提前拦截。
 - 员工走神只影响 `clean`、`regular_water`、`restock` 等维护行动，不影响 `build` 和 `upgrade`。
+- `upgrade` 每次只提升 1 级，设施最高为 `Lv.5`。
+- `resolve_complaint` 消耗 1 AP 和补偿金；客诉只有整改完成后才会恢复声誉，逾期会追加赔偿。
+- `community_service` 消耗 1 AP 和 120 金币，要求卫生与水质合格，可有限恢复声誉并有 3 天冷却。
 - `team_build` 是独立的整日行动，会自动暂停营业并结束当天，无需先传 `pause`。它提高员工默契，但不会降低偷懒率或提高工作效率。
 - 计划中连续写入 `pause`、`team_build` 时，服务器会自动把两步合并成同一天的聚餐行动。
+
+## Economy
+
+- 正常营业按当日营业额扣除 10% 营业税；人气达到 80 后按 12% 扣除。
+- 日常成本还包括人工、维护、水电、洗涤耗材、周末加班与周期合规费用。
+- 安全、消防、卫生、水质和重大客诉罚款按近期营业额与设施规模浮动。
 
 ## State Fields
 
