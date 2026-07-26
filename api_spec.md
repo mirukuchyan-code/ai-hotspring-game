@@ -136,9 +136,10 @@ When a save already has `pending_story_choice`, a valid choice clears the pendin
 - `upgrade` 每次只提升 1 级，设施最高为 `Lv.5`。
 - `resolve_complaint` 消耗 1 AP 和补偿金；客诉只有整改完成后才会恢复声誉，逾期会追加赔偿。
 - `community_service` 消耗 1 AP 和 120 金币，要求卫生与水质合格，可有限恢复声誉并有 3 天冷却。
-- 点评行动包括 `reply_review`、`compensate_review`、`promote_listing`、`invite_reviewer` 和 `buy_fake_reviews`，均消耗 1 AP。
+- 点评行动包括 `reply_review`、`compensate_review`、`promote_listing`、`invite_reviewer`、`buy_fake_reviews` 和 `buy_water_army`，均消耗 1 AP。
 - 人气只提高评价出现概率，不直接改变星级；声誉影响回复成功率；星级由实际顾客体验和经营状态决定。
-- `promote_listing` 只增加三天曝光，不保证好评。`buy_fake_reviews` 接受 `quantity=1..10`，每条固定 100 金币；14 天内集中购买越多，异常指数和审核概率越高，并可能触发删评、浮动罚款和三天限流。
+- `promote_listing` 只增加三天曝光，不保证好评。`buy_fake_reviews` 接受 `quantity=1..100`，每位素人固定 100 金币并计入均分；14 天内集中购买越多，审核概率越高。
+- `buy_water_army` 接受 `quantity=20..500`，每个低权重账号 2 金币。它不改变均分，只会三天内按每 25 个账号压下一条首页可见差评，并带来更高的即时审核风险。
 - `team_build` 是独立的整日行动，会自动暂停营业并结束当天，无需先传 `pause`。它提高员工默契，但不会降低偷懒率或提高工作效率。
 - 计划中连续写入 `pause`、`team_build` 时，服务器会自动把两步合并成同一天的聚餐行动。
 
@@ -157,15 +158,18 @@ Use the dedicated `hot_spring_review` MCP tool for review actions. Its `action` 
 - `promote_listing`
 - `invite_reviewer`
 - `buy_fake_reviews`
+- `buy_water_army`
 
-`buy_fake_reviews` 可额外传入 `quantity`（1–10，默认 1）。少量购买只产生较低审核风险，大量或短期连续购买会非线性提高审核风险。
+`buy_fake_reviews` 可传入 `quantity`（1–100，默认 1）；`buy_water_army` 可传入 `quantity`（20–500，默认调用时会按最低 20 个处理）。两者共用异常指数，但只有素人代写进入平均星级。
 
 `review_platform` contains the independent 「桃源点评」state:
 
 - `average` / `display`
 - `active_reviews` and `star_counts`
 - `real_reviews`, `professional_reviews`, `fake_reviews`
-- `unresolved_negative`
+- `unresolved_negative`, `front_page_negative`
+- `paid_amateur_reviews_14d`, `water_army_accounts_3d`
+- `audit_risk`, `active_water_army_campaigns`
 - `promotion_turns`, `suspicion`, `suspension_turns`
 - `recent_reviews`, `total_spend`, `penalties_paid`
 
