@@ -123,6 +123,8 @@ When a save already has `pending_story_choice`, a valid choice clears the pendin
 
 - 工作日共有 3 AP，周末/节假日共有 4 AP。
 - AP 每天重置，不累积；`pause` 会深度清洁并清除已有虫害，然后直接结束当天。停业日不会滋生或传播虫害。
+- `operate-day` 是一次性整天计划。只要至少一项行动成功，当天立即统一结算；未使用的点数写入 `expired_ap`，而 `unused_ap` 返回 0，不能再追加行动。
+- 如果全部行动失败，`day_ended=false`、`can_continue_today=true`、`expired_ap=0`，此时 `unused_ap` 才代表可重新提交的点数。
 - `story_choice` 不消耗 AP 或推进日期。单独提交选择后，当天仍可继续经营；也可以把选择和后续行动放在同一次 `operate-day` 请求中。
 - `hot_spring_execute_plan` 遇到待处理剧情时会先检查当前步骤是否为合法选择；合法选择会执行，不会再被 `decision` 状态提前拦截。
 - 员工走神只影响 `clean`、`regular_water`、`restock` 等维护行动，不影响 `build` 和 `upgrade`。

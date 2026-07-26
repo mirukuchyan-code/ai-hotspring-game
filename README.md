@@ -78,6 +78,8 @@ python example_ai_player.py
 - 工作日：共有 3 AP
 - 周末/节假日：全员高强度协作，共有 4 AP
 - AP 每天重置，不会累积；暂停营业会直接结束当天
+- `hot_spring_operate_day` 是早上一次提交的整天计划。只要其中有一项行动成功，当天就会完成结算，未安排的点数会进入 `expired_ap` 并作废，不能在晚上追加
+- 日结后 `unused_ap` 固定为 0，`can_continue_today=false`；只有所有行动都失败、当天尚未推进时，`unused_ap` 才表示真正还能重新提交的点数
 - 员工走神只影响打扫、换水、补货等维护行动，不影响扩建、装修和升级
 - 指定员工时可填写 `worker="阿岚"`、`worker="小满"` 或 `worker="owner"`；指定员工不在岗时会明确拒绝，不会悄悄换人
 
