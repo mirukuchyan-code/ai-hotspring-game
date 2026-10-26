@@ -133,7 +133,9 @@ When a save already has `pending_story_choice`, a valid choice clears the pendin
 - `story_choice` 不消耗 AP 或推进日期。单独提交选择后，当天仍可继续经营；也可以把选择和后续行动放在同一次 `operate-day` 请求中。
 - `hot_spring_execute_plan` 遇到待处理剧情时会先检查当前步骤是否为合法选择；合法选择会执行，不会再被 `decision` 状态提前拦截。
 - 员工走神只影响 `clean`、`regular_water`、`restock` 等维护行动，不影响 `build` 和 `upgrade`。
-- `upgrade` 每次只提升 1 级，设施最高为 `Lv.5`。
+- `upgrade` 每次只提升 1 级，设施最高为 `Lv.10`；`Lv.6 / Lv.8 / Lv.10` 会成为镇店名物，额外涨人气与声誉。
+- `invest` 消耗 3 AP，按固定顺序进行大额投资，一次砸一大笔钱换客流、水质、评选声望或设施收益；当前可投项目见状态里的 `investments.next`。
+- 状态里的 `guide_rank` 是桃源温泉榜：每 12 天（季末）评选一次，给出评分、位阶、名次、各项得分与满分线、距下一档差值与距下次评选天数；登顶【桃源至尊】即通关。营业满 144 天自动终局结算并给出评级与 Clear Points。
 - `resolve_complaint` 消耗 1 AP 和补偿金；客诉只有整改完成后才会恢复声誉，逾期会追加赔偿。
 - `community_service` 消耗 1 AP 和 120 金币，要求卫生与水质合格，可有限恢复声誉并有 3 天冷却。
 - 点评行动包括 `reply_review`、`compensate_review`、`promote_listing`、`invite_reviewer`、`buy_fake_reviews` 和 `buy_water_army`，均消耗 1 AP。
@@ -198,5 +200,7 @@ Common fields include:
 - `log`
 
 The state intentionally does not expose hidden achievement conditions or the full event table.
+
+`achievements` lists only the achievements already unlocked. Achievement **names** are public (67 in total, see `public_achievements.md`), but their trigger conditions are not. Unlocks are granted at day settlement, at most 2 per day; the 3-year finale settlement is exempt from that cap so endgame achievements are not swallowed. Once unlocked an achievement is never revoked.
 
 `expense_breakdown` contains labor, standard and hidden facility maintenance, guest consumables, weather costs, incident repairs, modifiers, and the final total. High-level facilities use a progressively steeper maintenance curve.
